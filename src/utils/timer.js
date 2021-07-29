@@ -1,7 +1,6 @@
 class Timer {
-  constructor(data, func1, func2, name) {
+  constructor(func1, func2, name) {
     this.localStorageKey = name;
-    this.data = data;
     this.updateCard = func1;
     this.updateState = func2;
     this.isTime = false;
@@ -14,8 +13,6 @@ class Timer {
     const hours = currentTime.getHours();
     const minutes = currentTime.getMinutes();
     const seconds = currentTime.getSeconds();
-
-    console.log(this);
 
     if (hours === 0 && minutes === 0 && seconds === 0) {
       this.isTime = true;

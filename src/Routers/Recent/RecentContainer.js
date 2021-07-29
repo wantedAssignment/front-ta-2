@@ -8,14 +8,18 @@ import Timer from '../../utils/timer';
 const LOCALSTORAGE_KEY = 'recordData';
 
 class RecentContainer extends React.Component {
-  state = {
-    cards: [],
-    clock: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: [],
+      clock: null,
+      brands: [],
+    };
+    this.brandUpdateFilter = this.brandUpdateFilter.bind(this);
+  }
 
   componentDidMount() {
     const myTimer = new Timer(
-      this.props.data,
       this.clearLocalStorage.bind(this),
       this.props.revokeLiked,
       LOCALSTORAGE_KEY
@@ -36,27 +40,56 @@ class RecentContainer extends React.Component {
           title: '거의새것 정품 구찌 보스턴백 토트백',
           brand: '구찌',
           id: 'fhbrejykkytuk',
-          liked: true,
+          liked: false,
           data: 1651198189191,
           price: 30000,
         },
       ])
     );
     const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
+    const brands = new Set(items.map((item) => item.brand));
     const setTimer = setInterval(() => myTimer.checkClock(), 1000);
-    this.setState({ cards: items, clock: setTimer });
-  }
 
-  clearLocalStorage() {
-    this.setState({ ...this.state, cards: [] });
+    this.setState({
+      cards: items,
+      clock: setTimer,
+      brands: Array.from(brands, (item) => item),
+    });
   }
 
   componentWillUnmount() {
     clearInterval(this.state.clock);
   }
 
+  clearLocalStorage() {
+    this.setState({ ...this.state, cards: [] });
+  }
+
+  brandUpdateFilter(e, data) {
+    console.log(e.target.checked);
+    console.log(data);
+
+    if (e.target.checked) {
+      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)).filter(
+        (item) => item.brand === data
+      );
+      console.log(items);
+      const newData = [...this.state.cards, ...items];
+      this.setState({ ...this.state, cards: newData });
+    } else {
+      const items = this.state.cards.filter((item) => item.brand !== data);
+      this.setState({ ...this.state, cards: items });
+    }
+  }
+
   render() {
-    return <RecentPresenter data={this.state.cards} />;
+    return (
+      <RecentPresenter
+        data={this.state.cards}
+        brands={this.state.brands}
+        brandUpdateFilter={this.brandUpdateFilter}
+      />
+    );
   }
 }
 
