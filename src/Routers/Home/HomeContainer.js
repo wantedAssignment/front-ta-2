@@ -4,18 +4,20 @@ import HomePresenter from './HomePresenter';
 import backendAPI from '../../api';
 
 class HomeContainer extends React.Component {
-  state = {};
+  state = {
+    data: [],
+  };
 
   async componentDidMount() {
     try {
       const data = await backendAPI.loadData();
-      const realData = await backendAPI.toJSON(data);
-      console.log(realData);
+      this.setState({ data });
+      console.log(data);
     } catch (error) {}
   }
 
   render() {
-    return <HomePresenter />;
+    return <HomePresenter data={this.state.data} />;
   }
 }
 

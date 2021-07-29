@@ -1,6 +1,18 @@
+import shortid from 'shortid';
+
 const backendAPI = {
-  loadData: () => fetch('http://localhost:3000/data/data.json'),
-  toJSON: (res) => res.json(),
+  loadData: () => {
+    return fetch('http://localhost:3000/data/data.json')
+      .then((res) => res.json())
+      .then((arr) => {
+        return arr.map((item) => {
+          item.id = shortid.generate();
+          item.liked = true;
+          item.date = new Date().getTime();
+          return item;
+        });
+      });
+  },
 };
 
 export default backendAPI;
