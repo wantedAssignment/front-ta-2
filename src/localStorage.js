@@ -14,12 +14,12 @@ export class LocalStorage {
       return;
       // 데이터가 2개 이상일 때
     } else {
-      // localstorage에 이미 있는지 확인, 있다면 삭제후 갱신
       const isClikedSame = data.some((v) => v.id === item.id);
+      // localstorage에 이미 있는지 확인, 있다면 삭제후 갱신
       if (isClikedSame) {
         data.forEach((v, index) => {
           if (v.id === item.id) {
-            data.splice(index, 1, { ...item, date: new Date() });
+            data.splice(index, 1, { ...item, date: new Date().getDate() });
             this.arr = data;
             this._clear(); // 모두 지우고
             this._save(this.arr); // 하나씩 저장
