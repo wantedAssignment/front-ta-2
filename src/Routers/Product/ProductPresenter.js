@@ -1,17 +1,21 @@
 import React from 'react';
 
-const ProductPresenter = ({ data }) => {
+const ProductPresenter = ({ data, handleAddItem }) => {
   return (
     <ul>
       {data.map((item) => (
-        <div key={item.id} style={{ margin: 30 }}>
-          <li>{item.id}</li>
-          <li>{item.title}</li>
-          <li>{item.brand}</li>
-          <li>{item.price}</li>
-          <li>{item.date}</li>
-          <li>{String(item.liked)}</li>
-        </div>
+        <li
+          key={item.id}
+          onClick={() => handleAddItem(item)}
+          style={{ margin: 30, cursor: 'pointer' }}
+        >
+          <span>{item.id}</span>
+          <p>{item.title}</p>
+          <span>{item.brand}</span>
+          <span>{item.price}</span>
+          <span>{item.date}</span>
+          <span>{String(item.liked)}</span>
+        </li>
       ))}
     </ul>
   );
