@@ -18,7 +18,22 @@ const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
   };
 
   if (data.length === 0) {
-    return <div>빈 배열</div>;
+    return (
+      <>
+        <div>
+          {brands.map((item) => (
+            <div key={item}>
+              <input
+                type="checkbox"
+                defaultChecked
+                onClick={(e) => brandUpdateFilter(e, item)}
+              />
+              <label>{item}</label>
+            </div>
+          ))}
+        </div>
+      </>
+    );
   }
 
   return (

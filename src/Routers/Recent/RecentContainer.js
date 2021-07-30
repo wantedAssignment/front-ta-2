@@ -61,19 +61,17 @@ class RecentContainer extends React.Component {
     clearInterval(this.state.clock);
   }
 
+  // 시간되면 상태 비우는 함수
   clearLocalStorage() {
     this.setState({ ...this.state, cards: [] });
   }
 
+  // 필터 함수
   brandUpdateFilter(e, data) {
-    console.log(e.target.checked);
-    console.log(data);
-
     if (e.target.checked) {
       const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)).filter(
         (item) => item.brand === data
       );
-      console.log(items);
       const newData = [...this.state.cards, ...items];
       this.setState({ ...this.state, cards: newData });
     } else {

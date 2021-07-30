@@ -4,6 +4,7 @@ export const dataSlice = createSlice({
   name: 'data',
   initialState: [],
   reducers: {
+    // 승욱이가 만든 리듀서
     loadData: (state, action) => {
       state = action.payload;
       return state;
@@ -18,6 +19,7 @@ export const dataSlice = createSlice({
   },
 });
 
+// action creator
 export const { loadData, revokeLiked } = dataSlice.actions;
 
 export default dataSlice.reducer;
