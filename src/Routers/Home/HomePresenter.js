@@ -6,20 +6,18 @@ const HomePresenter = (props) => {
   return (
     <ul>
       {data.map((item) => (
-        <>
-          <div
-            key={item.id}
-            style={{ margin: 30 }}
-            onClick={() => handleAddItem(item)}
-          >
-            <li>{item.id}</li>
-            <li>{item.title}</li>
-            <li>{item.brand}</li>
-            <li>{item.price}</li>
-            <li>{item.date}</li>
-            <li>{String(item.liked)}</li>
-          </div>
-        </>
+        <li
+          key={item.id}
+          style={{ margin: 40, cursor: 'pointer' }}
+          onClick={() => handleAddItem(item)}
+        >
+          <span>{item.id}</span>
+          <h2>{item.title}</h2>
+          <span>{item.brand}</span>
+          <span>{item.price}</span>
+          <span>{item.date}</span>
+          <span>{String(item.liked)}</span>
+        </li>
       ))}
     </ul>
   );
