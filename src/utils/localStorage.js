@@ -22,7 +22,7 @@ export class LocalStorage {
             data.splice(index, 1, { ...item, date: new Date().getTime() });
             this.arr = data;
             this._clear(); // 모두 지우고
-            this._save(this.arr); // 하나씩 저장
+            this._save(this.arr); // 새로운 데이터 다시 저장
           }
         });
         // localstorage에 없는 경우 그냥 추가
