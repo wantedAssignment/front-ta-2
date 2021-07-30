@@ -19,7 +19,7 @@ export class LocalStorage {
       if (isClikedSame) {
         data.forEach((v, index) => {
           if (v.id === item.id) {
-            data.splice(index, 1, { ...item, date: new Date().getDate() });
+            data.splice(index, 1, { ...item, date: new Date().getTime() });
             this.arr = data;
             this._clear(); // 모두 지우고
             this._save(this.arr); // 하나씩 저장
