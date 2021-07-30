@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import ProductPresenter from './ProductPresenter';
 import { loadData } from '../../reducer/index';
 import backendAPI from '../../api';
+import { LocalStorage } from '../../utils/localStorage';
 
 class HomeContainer extends React.Component {
-  state = {};
+  constructor() {
+    super();
+    this.storage = new LocalStorage();
+    this.handleAddItem = this.handleAddItem.bind(this);
+  }
 
   async componentDidMount() {
     try {
@@ -15,8 +20,17 @@ class HomeContainer extends React.Component {
     } catch (error) {}
   }
 
+  handleAddItem(item) {
+    this.storage.add(item);
+  }
+
   render() {
-    return <ProductPresenter data={this.props.data} />;
+    return (
+      <ProductPresenter
+        data={this.props.data}
+        handleAddItem={this.handleAddItem}
+      />
+    );
   }
 }
 
