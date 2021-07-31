@@ -10,7 +10,14 @@ const Card = styled.div`
   padding: 10px;
 `;
 
-const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
+const RecentPresenter = ({
+  data,
+  brands,
+  brandUpdateFilter,
+  hideUnLikedFilter,
+  dateSorting,
+  priceSorting,
+}) => {
   useEffect(() => {}, []);
 
   const onhandleClick = () => {
@@ -32,6 +39,23 @@ const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
             </div>
           ))}
         </div>
+        <div>
+          <label>관심 없는 상품 숨기기</label>
+          <input type="checkbox" onChange={hideUnLikedFilter} />
+        </div>
+        <div>
+          <select onChange={dateSorting}>
+            <option value="">--날짜 순--</option>
+            <option value="recent">최근 순</option>
+          </select>
+        </div>
+        <div>
+          <select onChange={priceSorting}>
+            <option value="">--가격 순--</option>
+            <option value="priceUp">가격 오름차순</option>
+            <option value="priceDown">가격 내림차순</option>
+          </select>
+        </div>
         <div>데이터 없음</div>
       </>
     );
@@ -50,6 +74,23 @@ const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
             <label>{item}</label>
           </div>
         ))}
+      </div>
+      <div>
+        <label>관심 없는 상품 숨기기</label>
+        <input type="checkbox" onChange={hideUnLikedFilter} />
+      </div>
+      <div>
+        <select onChange={dateSorting}>
+          <option value="">--날짜 순--</option>
+          <option value="recent">최근 순</option>
+        </select>
+      </div>
+      <div>
+        <select onChange={priceSorting}>
+          <option value="">--가격 순--</option>
+          <option value="priceUp">가격 오름차순</option>
+          <option value="priceDown">가격 내림차순</option>
+        </select>
       </div>
       {data.map((item) => {
         return (
