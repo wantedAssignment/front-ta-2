@@ -2,7 +2,7 @@
 
 const backendAPI = {
   loadData: () => {
-    return fetch('http://localhost:3000/data/data.json')
+    return fetch('https://camelcommerce.netlify.app/data/data.json')
       .then((res) => res.json())
       .then((arr) => {
         return arr.map((item, index) => {
