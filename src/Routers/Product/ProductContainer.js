@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 //
 import ProductPresenter from './ProductPresenter';
-import { loadData } from '../../reducer/index';
+import { loadData, updateData } from '../../reducer/index';
 import backendAPI from '../../api';
 import { LocalStorage } from '../../utils/localStorage';
 
@@ -22,6 +22,7 @@ class HomeContainer extends React.Component {
 
   handleAddItem(item) {
     this.storage.add(item);
+    this.props.updateData(item);
   }
 
   render() {
@@ -41,6 +42,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loadData: (state) => dispatch(loadData(state)),
+    updateData: (state) => dispatch(updateData(state)),
   };
 }
 

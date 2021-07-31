@@ -62,18 +62,13 @@ class RecentContainer extends React.Component {
 
   // 브랜드 필터 함수
   brandUpdateFilter(e, data) {
-    console.log(e.target.checked, data);
     if (e.target.checked) {
       const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY))
         .filter((item) => item.brand === data)
         .map((item) => item.id);
-
-      console.log(items);
       const storeItem = this.props.data.filter((item) =>
         items.includes(item.id)
       );
-
-      console.log(storeItem);
       const newData = [...this.state.cards, ...storeItem];
 
       this.setState({ ...this.state, cards: newData });
@@ -113,6 +108,10 @@ class RecentContainer extends React.Component {
   dateSorting(e) {
     switch (e.target.value) {
       case 'recent':
+        const recentData = [...this.state.cards].sort(
+          (a, b) => b.date - a.date
+        );
+        this.setState({ ...this.state, cards: recentData });
         break;
       default:
         break;
