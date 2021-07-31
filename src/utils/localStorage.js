@@ -1,6 +1,6 @@
 export class LocalStorage {
   constructor() {
-    this.arr = [];
+    this.arr = this._getAll() || [];
   }
 
   add(item) {
