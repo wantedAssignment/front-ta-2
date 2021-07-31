@@ -1,7 +1,7 @@
 import React from 'react';
 import {
+  Button,
   Brand,
-  InfoWrapper,
   Item,
   List,
   Price,
@@ -14,12 +14,16 @@ const ProductPresenter = ({ data, handleAddItem }) => {
     <Wrapper>
       <List>
         {data.map((item) => (
-          <Item key={item.id} onClick={() => handleAddItem(item)}>
-            <InfoWrapper to={`/product/${item.id}`}>
-              <Title>{item.title}</Title>
-              <Brand>{item.brand}</Brand>
-              <Price>{item.price}원</Price>
-            </InfoWrapper>
+          <Item key={item.id} o>
+            <Title>{item.title}</Title>
+            <Brand>{item.brand}</Brand>
+            <Price>{item.price}원</Price>
+            <Button
+              to={`/product/${item.id}`}
+              onClick={() => handleAddItem(item)}
+            >
+              상세보기
+            </Button>
           </Item>
         ))}
       </List>
