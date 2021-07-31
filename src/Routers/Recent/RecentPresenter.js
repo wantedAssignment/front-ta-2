@@ -20,6 +20,18 @@ const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
   if (!data || data?.length === 0) {
     return (
       <>
+        <div>
+          {brands.map((item) => (
+            <div key={item}>
+              <input
+                type="checkbox"
+                defaultChecked
+                onClick={(e) => brandUpdateFilter(e, item)}
+              />
+              <label>{item}</label>
+            </div>
+          ))}
+        </div>
         <div>데이터 없음</div>
       </>
     );
