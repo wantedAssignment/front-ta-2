@@ -1,6 +1,7 @@
 import React from 'react';
-// import backendAPI from '../../api';
 import DetailPresenter from './DetailPresenter';
+import { connect } from 'react-redux';
+import { setDislike } from '../../reducer'
 
 const ITEM = ['제목', 'Brand', '가격'];
 
@@ -8,50 +9,49 @@ class DetailContainer extends React.Component {
   state = {
     dataArr: [],
     data: {},
-    id: Number(this.props.location.pathname.split('/').slice(-1)),
+    id: this.props.location.pathname.split('/').slice(-1)[0],
   };
 
   readRandom = () => {
-    // const MAX = 50;
-    // let newID = Math.floor(Math.random() * MAX) + 1;
-    // while ( newID === this.state.id) {
-    //   newID = Math.floor(Math.random() * MAX) + 1;
-    // };
-    // this.setState({
-    //   id: newID,
-    // });
+    const MAX = this.state.dataArr.length;
+    let newID = String(Math.floor(Math.random() * MAX) + 1);
+    while ( newID === this.state.id
+      || this.props.result[Number(newID) - 1].liked === false
+    ) {
+      newID = String(Math.floor(Math.random() * MAX) + 1);
+    };
+    this.setState({
+      id: newID,
+    });
   };
   
   setDislike = () => {
-    // this.readRandom();
-  }
-
-  read = async () => {
-    // try {
-    //   const result = await backendAPI.loadData();
-    //   this.setState({
-    //     dataArr: result,
-    //   });
-    //   const data = result.filter(v => v.id === this.state.id);
-    //   this.setState({
-    //     data: data[0],
-    //   });
-    // } catch (error) {
-    //   alert('오류 발생');
-    // };
+    const newDataArr = [...this.props.result];
+    newDataArr[Number(this.state.id) - 1] = {
+      ...this.props.result[Number(this.state.id) - 1],
+      liked: false,
+    };
+    this.props.setDislike(newDataArr)
+    this.readRandom();
   };
 
   componentDidMount() {
-    // this.read();
+    this.setState({
+      dataArr: this.props.result,
+      data: this.props.result[Number(this.state.id) - 1],
+    });
   };
 
   componentDidUpdate(_, prev) {
-    // if (this.state.id !== prev.id) {
-    //   this.read();
-    // };
+    if (this.state.id !== prev.id) {
+      this.setState({
+        data: this.props.result[Number(this.state.id) - 1],
+      });
+    };
   };
 
   render() {
+    console.log(this.state.id)
     return (
       <DetailPresenter
         data={this.state.data}
@@ -63,4 +63,12 @@ class DetailContainer extends React.Component {
   };
 };
 
-export default DetailContainer;
+const mapStateToProps = state => ({
+  result: state.data,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setDislike: (state) => dispatch(setDislike(state)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailContainer);

@@ -13,9 +13,9 @@ const HomePresenter = ({ data, ITEM, readRandom, setDislike }) => {
           {ITEM.map((v, i) =>(
             <ItemSubWrapper key={i}>
               <Item>{v} :</Item>
-              {/* <Value>{i === 0 && data?.title}</Value> */}
-              {/* <Value>{i === 1 && data?.brand}</Value> */}
-              {/* <Value>{i === 2 && `${data?.price} 원`}</Value> */}
+              <Value>{i === 0 && data?.title}</Value>
+              <Value>{i === 1 && data?.brand}</Value>
+              <Value>{i === 2 && `${data?.price} 원`}</Value>
             </ItemSubWrapper>
           ))}
         </ItemWrapper>
