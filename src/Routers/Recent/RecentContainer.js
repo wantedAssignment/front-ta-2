@@ -12,10 +12,13 @@ class RecentContainer extends React.Component {
     super(props);
     this.state = {
       cards: [],
-      clock: null,
       brands: [],
+      clock: null,
     };
     this.brandUpdateFilter = this.brandUpdateFilter.bind(this);
+    this.hideUnLikedFilter = this.hideUnLikedFilter.bind(this);
+    this.dateSorting = this.dateSorting.bind(this);
+    this.priceSorting = this.priceSorting.bind(this);
   }
 
   componentDidMount() {
@@ -25,33 +28,24 @@ class RecentContainer extends React.Component {
       LOCALSTORAGE_KEY
     );
 
-    localStorage.setItem(
-      LOCALSTORAGE_KEY,
-      JSON.stringify([
-        {
-          title: '중고 나이키 테아 흰검 245 30000원',
-          brand: '나이키',
-          id: 'asdnfsaidnf',
-          liked: true,
-          data: 1651198189191,
-          price: 30000,
-        },
-        {
-          title: '거의새것 정품 구찌 보스턴백 토트백',
-          brand: '구찌',
-          id: 'fhbrejykkytuk',
-          liked: false,
-          data: 1651198189191,
-          price: 30000,
-        },
-      ])
-    );
+    // 로컬 스토리지에서 아이템 아이디, 브랜드 목록 추출
     const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
-    const brands = new Set(items.map((item) => item.brand));
+
+    if (!items) {
+      localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify([]));
+    }
+
+    const ids = items ? items.map((item) => item?.id) : [];
+    const brands = items ? new Set(items.map((item) => item.brand)) : [];
+
+    // 추출된 아이디로 리덕스 데이터 가져와서 갱신
+    const storeItems = this.props.data.filter((item) => ids.includes(item?.id));
+
+    // 1초마다 시간 감지
     const setTimer = setInterval(() => myTimer.checkClock(), 1000);
 
     this.setState({
-      cards: items,
+      cards: storeItems,
       clock: setTimer,
       brands: Array.from(brands, (item) => item),
     });
@@ -66,17 +60,77 @@ class RecentContainer extends React.Component {
     this.setState({ ...this.state, cards: [] });
   }
 
-  // 필터 함수
+  // 브랜드 필터 함수
   brandUpdateFilter(e, data) {
     if (e.target.checked) {
-      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)).filter(
-        (item) => item.brand === data
+      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY))
+        .filter((item) => item.brand === data)
+        .map((item) => item.id);
+      const storeItem = this.props.data.filter((item) =>
+        items.includes(item.id)
       );
-      const newData = [...this.state.cards, ...items];
+      const newData = [...this.state.cards, ...storeItem];
+
       this.setState({ ...this.state, cards: newData });
     } else {
       const items = this.state.cards.filter((item) => item.brand !== data);
+
       this.setState({ ...this.state, cards: items });
+    }
+  }
+
+  // 관심없음 필터 함수
+  hideUnLikedFilter(e) {
+    if (e.target.checked) {
+      const newData = this.state.cards.filter(
+        (item) => item.liked === e.target.checked
+      );
+
+      this.setState({ ...this.state, cards: newData });
+    } else {
+      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)).map(
+        (item) => item.id
+      );
+      const cardsId = this.state.cards.map((item) => item.id);
+      const newData = items.filter((item) => !cardsId.includes(item));
+      const updateData = this.props.data.filter((item) =>
+        newData.includes(item.id)
+      );
+
+      this.setState({
+        ...this.state,
+        cards: this.state.cards.concat(updateData),
+      });
+    }
+  }
+
+  // 날짜 정렬 함수
+  dateSorting(e) {
+    switch (e.target.value) {
+      case 'recent':
+        const recentData = [...this.state.cards].sort(
+          (a, b) => b.date - a.date
+        );
+        this.setState({ ...this.state, cards: recentData });
+        break;
+      default:
+        break;
+    }
+  }
+
+  // 가격 정렬 함수
+  priceSorting(e) {
+    switch (e.target.value) {
+      case 'priceUp':
+        const ascData = [...this.state.cards].sort((a, b) => a.price - b.price);
+        this.setState({ ...this.state, cards: ascData });
+        break;
+      case 'priceDown':
+        const desData = [...this.state.cards].sort((a, b) => b.price - a.price);
+        this.setState({ ...this.state, cards: desData });
+        break;
+      default:
+        break;
     }
   }
 
@@ -86,6 +140,9 @@ class RecentContainer extends React.Component {
         data={this.state.cards}
         brands={this.state.brands}
         brandUpdateFilter={this.brandUpdateFilter}
+        hideUnLikedFilter={this.hideUnLikedFilter}
+        dateSorting={this.dateSorting}
+        priceSorting={this.priceSorting}
       />
     );
   }

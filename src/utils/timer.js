@@ -21,6 +21,7 @@ class Timer {
     if (this.isTime) {
       this.clearRecordData();
       this.clearToLikedDefault();
+      this.isTime = false;
     }
   }
 

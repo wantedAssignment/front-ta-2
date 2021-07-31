@@ -16,10 +16,22 @@ export const dataSlice = createSlice({
       });
       return newState;
     },
+    setDislike: (state, action) => {
+      state = action.payload;
+      return state;
+    },
+    updateData: (state, action) => {
+      const findIndex = state.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state[findIndex]['date'] = new Date().getTime();
+      return state;
+    },
   },
 });
 
 // action creator
-export const { loadData, revokeLiked } = dataSlice.actions;
+export const { loadData, revokeLiked, setDislike, updateData } =
+  dataSlice.actions;
 
 export default dataSlice.reducer;
