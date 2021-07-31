@@ -54,7 +54,7 @@ class RecentContainer extends React.Component {
   componentWillUnmount() {
     clearInterval(this.state.clock);
   }
-
+  //
   // 시간되면 상태 비우는 함수
   clearLocalStorage() {
     this.setState({ ...this.state, cards: [] });
