@@ -17,21 +17,10 @@ const RecentPresenter = ({ data, brands, brandUpdateFilter }) => {
     alert('싫다고 하잖아');
   };
 
-  if (data.length === 0) {
+  if (!data || data?.length === 0) {
     return (
       <>
-        <div>
-          {brands.map((item) => (
-            <div key={item}>
-              <input
-                type="checkbox"
-                defaultChecked
-                onClick={(e) => brandUpdateFilter(e, item)}
-              />
-              <label>{item}</label>
-            </div>
-          ))}
-        </div>
+        <div>데이터 없음</div>
       </>
     );
   }

@@ -16,10 +16,14 @@ export const dataSlice = createSlice({
       });
       return newState;
     },
+    setDislike: (state, action) => {
+      state = action.payload;
+      return state;
+    },
   },
 });
 
 // action creator
-export const { loadData, revokeLiked } = dataSlice.actions;
+export const { loadData, revokeLiked, setDislike } = dataSlice.actions;
 
 export default dataSlice.reducer;
