@@ -10,17 +10,15 @@ export const Wrapper = styled.section`
 export const List = styled.ul``;
 
 export const Item = styled.li`
+  position: relative;
   margin-bottom: 40px;
-  cursor: pointer;
-`;
-
-export const InfoWrapper = styled(Link)`
-  display: inline-block;
+  display: block;
   background-color: #dedede;
   padding: 20px;
   width: 400px;
   transition: 0.3s;
   border-radius: 10px;
+
   &:hover {
     background-color: #fbccc6;
   }
@@ -43,4 +41,22 @@ export const Brand = styled.span`
 export const Price = styled.span`
   font-size: 18px;
   display: block;
+`;
+
+export const Button = styled(Link)`
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-size: 12px;
+  transition: 0.3s;
+  color: #6a6a6a;
+  font-weight: 600;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 `;
